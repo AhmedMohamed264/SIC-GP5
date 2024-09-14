@@ -23,7 +23,7 @@ class UsersRepository implements IUsersRepository {
   }
 
   @override
-  Future<User> getUserById(int id) async {
+  Future<User> getUserById(String id) async {
     return await _usersApi.getUser(id);
   }
 }

@@ -13,7 +13,7 @@ abstract class UsersApi {
 
   @GET('{id}')
   Future<User> getUser(
-    @Path('id') int id,
+    @Path('id') String id,
   );
 
   @GET('UserName/{username}')

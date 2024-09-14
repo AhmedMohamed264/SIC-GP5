@@ -13,7 +13,9 @@ class _PlacesApi implements PlacesApi {
     this._dio, {
     this.baseUrl,
     this.errorLogger,
-  });
+  }) {
+    baseUrl ??= 'http://ahmedafifi-pc:5283/Places/';
+  }
 
   final Dio _dio;
 
@@ -34,7 +36,7 @@ class _PlacesApi implements PlacesApi {
     )
         .compose(
           _dio.options,
-          '/${id}',
+          '${id}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -67,7 +69,7 @@ class _PlacesApi implements PlacesApi {
     )
         .compose(
           _dio.options,
-          '/User/${userId}',
+          'User/${userId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -103,7 +105,7 @@ class _PlacesApi implements PlacesApi {
     )
         .compose(
           _dio.options,
-          '/',
+          '',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -132,7 +134,7 @@ class _PlacesApi implements PlacesApi {
     )
         .compose(
           _dio.options,
-          '/${id}',
+          '${id}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -157,7 +159,7 @@ class _PlacesApi implements PlacesApi {
     )
         .compose(
           _dio.options,
-          '/${id}',
+          '${id}',
           queryParameters: queryParameters,
           data: _data,
         )

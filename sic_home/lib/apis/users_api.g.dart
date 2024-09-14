@@ -13,7 +13,9 @@ class _UsersApi implements UsersApi {
     this._dio, {
     this.baseUrl,
     this.errorLogger,
-  });
+  }) {
+    baseUrl ??= 'http://ahmedafifi-pc:5283/Users/';
+  }
 
   final Dio _dio;
 
@@ -22,7 +24,7 @@ class _UsersApi implements UsersApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<User> getUser(int id) async {
+  Future<User> getUser(String id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -34,7 +36,7 @@ class _UsersApi implements UsersApi {
     )
         .compose(
           _dio.options,
-          '/${id}',
+          '${id}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -67,7 +69,7 @@ class _UsersApi implements UsersApi {
     )
         .compose(
           _dio.options,
-          '/UserName/${userName}',
+          'UserName/${userName}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -100,7 +102,7 @@ class _UsersApi implements UsersApi {
     )
         .compose(
           _dio.options,
-          '/IsUserNameAvailable/${userName}',
+          'IsUserNameAvailable/${userName}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -133,7 +135,7 @@ class _UsersApi implements UsersApi {
     )
         .compose(
           _dio.options,
-          '/NotificationTokens/${userId}',
+          'NotificationTokens/${userId}',
           queryParameters: queryParameters,
           data: _data,
         )

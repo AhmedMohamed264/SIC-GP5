@@ -13,7 +13,9 @@ class _DevicesApi implements DevicesApi {
     this._dio, {
     this.baseUrl,
     this.errorLogger,
-  });
+  }) {
+    baseUrl ??= 'http://ahmedafifi-pc:5283/Devices/';
+  }
 
   final Dio _dio;
 
@@ -34,7 +36,7 @@ class _DevicesApi implements DevicesApi {
     )
         .compose(
           _dio.options,
-          '/${id}',
+          '${id}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -67,7 +69,7 @@ class _DevicesApi implements DevicesApi {
     )
         .compose(
           _dio.options,
-          '/User/${userId}',
+          'User/${userId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -102,7 +104,7 @@ class _DevicesApi implements DevicesApi {
     )
         .compose(
           _dio.options,
-          '/Place/${placeId}',
+          'Place/${placeId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -137,7 +139,7 @@ class _DevicesApi implements DevicesApi {
     )
         .compose(
           _dio.options,
-          '/Section/${sectionId}',
+          'Section/${sectionId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -173,7 +175,7 @@ class _DevicesApi implements DevicesApi {
     )
         .compose(
           _dio.options,
-          '/',
+          '',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -202,7 +204,7 @@ class _DevicesApi implements DevicesApi {
     )
         .compose(
           _dio.options,
-          '/${id}',
+          '${id}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -227,7 +229,7 @@ class _DevicesApi implements DevicesApi {
     )
         .compose(
           _dio.options,
-          '/${id}',
+          '${id}',
           queryParameters: queryParameters,
           data: _data,
         )

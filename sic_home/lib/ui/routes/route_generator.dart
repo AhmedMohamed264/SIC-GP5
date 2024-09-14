@@ -1,6 +1,9 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:sic_home/ui/routes/home.dart';
+import 'package:sic_home/ui/routes/login.dart';
+import 'package:sic_home/ui/routes/register.dart';
+import 'package:sic_home/ui/routes/startup.dart';
 
 class RouteGenerator {
   RouteGenerator._();
@@ -8,14 +11,26 @@ class RouteGenerator {
   static final mainNavigatorkey = GlobalKey<NavigatorState>();
   static final homeNavigatorKey = GlobalKey<NavigatorState>();
 
+  static const startup = "startup";
+  static const homePage = "home";
+  static const loginPage = "login";
+  static const registerPage = "register";
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case startup:
+        return MaterialPageRoute(builder: (_) => const Startup());
+      case loginPage:
+        return MaterialPageRoute(builder: (_) => Login());
+      case registerPage:
+        return MaterialPageRoute(builder: (_) => Register());
+      case homePage:
+        return MaterialPageRoute(builder: (_) => const Home());
       default:
         throw const FormatException("Route not found");
     }
   }
 
-  // Create a sliding route
   static PageRouteBuilder slidingRoute(Widget route) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => route,

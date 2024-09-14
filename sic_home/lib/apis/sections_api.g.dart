@@ -13,7 +13,9 @@ class _SectionsApi implements SectionsApi {
     this._dio, {
     this.baseUrl,
     this.errorLogger,
-  });
+  }) {
+    baseUrl ??= 'http://ahmedafifi-pc:5283/Sections/';
+  }
 
   final Dio _dio;
 
@@ -34,7 +36,7 @@ class _SectionsApi implements SectionsApi {
     )
         .compose(
           _dio.options,
-          '/${id}',
+          '${id}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -67,7 +69,7 @@ class _SectionsApi implements SectionsApi {
     )
         .compose(
           _dio.options,
-          '/User/${userId}',
+          'User/${userId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -102,7 +104,7 @@ class _SectionsApi implements SectionsApi {
     )
         .compose(
           _dio.options,
-          '/Place/${placeId}',
+          'Place/${placeId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -138,7 +140,7 @@ class _SectionsApi implements SectionsApi {
     )
         .compose(
           _dio.options,
-          '/',
+          '',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -167,7 +169,7 @@ class _SectionsApi implements SectionsApi {
     )
         .compose(
           _dio.options,
-          '/${id}',
+          '${id}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -192,7 +194,7 @@ class _SectionsApi implements SectionsApi {
     )
         .compose(
           _dio.options,
-          '/${id}',
+          '${id}',
           queryParameters: queryParameters,
           data: _data,
         )

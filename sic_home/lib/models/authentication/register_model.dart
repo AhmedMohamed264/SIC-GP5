@@ -3,7 +3,6 @@ class RegisterModel {
   String lastName;
   String email;
   String username;
-  bool gender;
   String password;
 
   RegisterModel({
@@ -11,7 +10,6 @@ class RegisterModel {
     required this.lastName,
     required this.email,
     required this.username,
-    required this.gender,
     required this.password,
   });
 
@@ -21,7 +19,6 @@ class RegisterModel {
       lastName: json['lastName'],
       email: json['email'],
       username: json['username'],
-      gender: json['gender'],
       password: json['password'],
     );
   }
@@ -32,7 +29,6 @@ class RegisterModel {
       'lastName': lastName,
       'email': email,
       'username': username,
-      'gender': gender,
       'password': password,
     };
   }
