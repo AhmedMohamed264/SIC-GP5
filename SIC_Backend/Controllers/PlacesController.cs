@@ -20,7 +20,7 @@ namespace SIC_Backend.Controllers
         }
 
         [HttpGet]
-        [Route("user/{userId}")]
+        [Route("User/{userId}")]
         public ActionResult<IEnumerable<PlaceDTO>> GetPlacesByUserId(string userId)
         {
             logger.LogDebug("PlacesController -> GetPlacesByUserId: getting places by user id");
