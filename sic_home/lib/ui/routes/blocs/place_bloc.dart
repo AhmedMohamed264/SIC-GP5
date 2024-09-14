@@ -1,19 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sic_home/models/create_place_model.dart';
+import 'package:sic_home/models/create_section_model.dart';
 import 'package:sic_home/models/user.dart';
 import 'package:sic_home/repositories/authentication_repository.dart';
-import 'package:sic_home/repositories/places_repository.dart';
+import 'package:sic_home/repositories/sections_repository.dart';
 import 'package:sic_home/repositories/users_repository.dart';
 import 'package:sic_home/ui/routes/route_generator.dart';
 
-enum HomeStates { initial, loading, loaded, error }
+enum PlaceStates { initial, loading, loaded, error }
 
-class HomeState {
-  HomeStates state;
+class PlaceState {
+  PlaceStates state;
   User user;
   String? error;
 
-  HomeState({
+  PlaceState({
     required this.state,
     required this.user,
     this.error,
@@ -22,39 +22,40 @@ class HomeState {
 
 class LoadEvent {}
 
-class AddPlaceEvent {
-  final CreatePlaceModel place;
+class AddSectionEvent {
+  final CreateSectionModel section;
 
-  const AddPlaceEvent(this.place);
+  const AddSectionEvent(this.section);
 }
 
-class HomeBloc extends Bloc<Object, HomeState> {
-  HomeBloc(UsersRepository usersRepository, PlacesRepository placesRepository)
+class PlaceBloc extends Bloc<Object, PlaceState> {
+  PlaceBloc(
+      UsersRepository usersRepository, SectionsRepository sectionsRepository)
       : super(
-          HomeState(
-            state: HomeStates.initial,
+          PlaceState(
+            state: PlaceStates.initial,
             user:
                 AuthenticationRepository().authenticationService.currentUser()!,
           ),
         ) {
     on<LoadEvent>(
       (event, emit) async {
-        emit(HomeState(
-          state: HomeStates.loading,
+        emit(PlaceState(
+          state: PlaceStates.loading,
           user: state.user,
         ));
 
         await usersRepository.getUserById(state.user.id).then(
           (user) {
-            emit(HomeState(
-              state: HomeStates.loaded,
+            emit(PlaceState(
+              state: PlaceStates.loaded,
               user: user,
             ));
           },
           onError: (error) {
             emit(
-              HomeState(
-                state: HomeStates.error,
+              PlaceState(
+                state: PlaceStates.error,
                 user: state.user,
                 error: error.toString(),
               ),
@@ -64,27 +65,27 @@ class HomeBloc extends Bloc<Object, HomeState> {
       },
     );
 
-    on<AddPlaceEvent>(
+    on<AddSectionEvent>(
       (event, emit) async {
         RouteGenerator.mainNavigatorkey.currentState
             ?.pop(); // Close the add place dialog.
 
-        emit(HomeState(
-          state: HomeStates.loading,
+        emit(PlaceState(
+          state: PlaceStates.loading,
           user: state.user,
         )); // Show loading dialog.
 
-        await placesRepository.createPlace(event.place).then(
+        await sectionsRepository.createSection(event.section).then(
           (place) {
-            emit(HomeState(
-              state: HomeStates.loaded,
+            emit(PlaceState(
+              state: PlaceStates.loaded,
               user: state.user,
             ));
           },
           onError: (error) {
             emit(
-              HomeState(
-                state: HomeStates.error,
+              PlaceState(
+                state: PlaceStates.error,
                 user: state.user,
                 error: error.toString(),
               ),
@@ -95,5 +96,7 @@ class HomeBloc extends Bloc<Object, HomeState> {
         add(LoadEvent());
       },
     );
+
+    add(LoadEvent());
   }
 }

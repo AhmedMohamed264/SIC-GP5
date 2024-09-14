@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:sic_home/models/place.dart';
 import 'package:sic_home/ui/routes/home.dart';
 import 'package:sic_home/ui/routes/login.dart';
+import 'package:sic_home/ui/routes/place.dart';
 import 'package:sic_home/ui/routes/register.dart';
 import 'package:sic_home/ui/routes/startup.dart';
 
@@ -15,6 +17,7 @@ class RouteGenerator {
   static const homePage = "home";
   static const loginPage = "login";
   static const registerPage = "register";
+  static const placePage = "place";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -26,6 +29,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Register());
       case homePage:
         return MaterialPageRoute(builder: (_) => const Home());
+      case placePage:
+        return MaterialPageRoute(
+            builder: (_) => PlacePage(settings.arguments as Place));
       default:
         throw const FormatException("Route not found");
     }
