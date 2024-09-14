@@ -1,33 +1,34 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SIC_Backend.Data;
+using SIC_Backend.Data.DTOs;
 using SIC_Backend.Data.Models;
 
 namespace SIC_Backend.Repositories
 {
     public class UsersRepository(ApplicationDbContext dbContext) : IUsersRepository
     {
-        public async Task<User> GetUserByIdAsync(string id)
+        public UserDTO GetUserById(string id)
         {
-            var user = await dbContext.Users.FindAsync(id);
+            var user = dbContext.Users.Where(u => u.Id == id)
+                .Include(u => u.Places)
+                .ThenInclude(p => p.Sections)
+                .ThenInclude(s => s.Devices)
+                .Select(UserDTO.FromUser)
+                .First();
 
-            if (user == null)
-            {
-                //throw new NotFoundException("User not found");
-            }
-
-            return user!;
+            return user;
         }
 
-        public async Task<User> GetUserByUsernameAsync(string username)
+        public UserDTO GetUserByUsername(string username)
         {
-            var user = await dbContext.Users.FirstOrDefaultAsync(u => u.UserName == username);
+            var user = dbContext.Users.Where(u => u.UserName == username)
+                .Include(u => u.Places)
+                .ThenInclude(p => p.Sections)
+                .ThenInclude(s => s.Devices)
+                .Select(UserDTO.FromUser)
+                .First();
 
-            if (user == null)
-            {
-                //throw new NotFoundException("User not found");
-            }
-
-            return user!;
+            return user;
         }
 
         public async Task<bool> IsUserNameAvailableAsync(string username)

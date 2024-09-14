@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SIC_Backend.Data.DTOs;
 using SIC_Backend.Data.Models;
 using SIC_Backend.Repositories;
 
@@ -10,47 +11,47 @@ namespace SIC_Backend.Controllers
     {
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<Place>> GetPlaceById(int id)
+        public ActionResult<PlaceDTO> GetPlaceById(int id)
         {
             logger.LogDebug("PlacesController -> GetPlaceById: getting place by id");
-            var place = await placesRepository.GetPlaceByIdAsync(id);
+            var place = placesRepository.GetPlaceById(id);
 
             return Ok(place);
         }
 
         [HttpGet]
         [Route("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<Place>>> GetPlacesByUserId(string userId)
+        public ActionResult<IEnumerable<PlaceDTO>> GetPlacesByUserId(string userId)
         {
             logger.LogDebug("PlacesController -> GetPlacesByUserId: getting places by user id");
-            var places = await placesRepository.GetPlacesByUserIdAsync(userId);
+            var places = placesRepository.GetPlacesByUserId(userId);
 
             return Ok(places);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Place>> CreatePlace([FromBody] CreatePlaceModel model)
+        public async Task<ActionResult> CreatePlace([FromBody] CreatePlaceModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             logger.LogDebug("PlacesController -> CreatePlace: creating place");
-            var place = await placesRepository.CreatePlaceAsync(model);
+            await placesRepository.CreatePlaceAsync(model);
 
-            return Ok(place);
+            return NoContent();
         }
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<ActionResult<Place>> UpdatePlace(int id, [FromBody] UpdatePlaceModel model)
+        public async Task<ActionResult> UpdatePlace(int id, [FromBody] UpdatePlaceModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             logger.LogDebug("PlacesController -> UpdatePlace: updating place");
-            var place = await placesRepository.UpdatePlaceAsync(id, model);
+            await placesRepository.UpdatePlaceAsync(id, model);
 
-            return Ok(place);
+            return NoContent();
         }
 
         [HttpDelete]

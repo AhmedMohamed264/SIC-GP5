@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SIC_Backend.Data;
+using SIC_Backend.Data.DTOs;
 using SIC_Backend.Data.Models;
 
 namespace SIC_Backend.Repositories
 {
     public class DevicesRepository(ApplicationDbContext dbContext) : IDevicesRepository
     {
-        public async Task<Device> GetDeviceByIdAsync(int id)
+        public async Task<DeviceDTO> GetDeviceByIdAsync(int id)
         {
             var device = await dbContext.Devices.FindAsync(id);
 
@@ -15,35 +16,40 @@ namespace SIC_Backend.Repositories
                 //throw new NotFoundException("Device not found");
             }
 
-            return device!;
+            return DeviceDTO.FromDevice(device!);
         }
 
-        public async Task<IEnumerable<Device>> GetDevicesByUserIdAsync(string userId)
+        public IEnumerable<DeviceDTO> GetDevicesByUserId(string userId)
         {
-            return await dbContext.Devices.Where(d => d.UserId == userId).ToListAsync();
+            return dbContext.Devices.Where(d => d.UserId == userId)
+                .Select(DeviceDTO.FromDevice)
+                .ToList();
         }
 
-        public async Task<IEnumerable<Device>> GetDevicesByPlaceIdAsync(int placeId)
+        public IEnumerable<DeviceDTO> GetDevicesByPlaceId(int placeId)
         {
-            return await dbContext.Devices.Where(d => d.PlaceId == placeId).ToListAsync();
+            return dbContext.Devices.Where(d => d.PlaceId == placeId)
+                .Select(DeviceDTO.FromDevice)
+                .ToList();
         }
 
-        public async Task<IEnumerable<Device>> GetDevicesBySectionIdAsync(int sectionId)
+        public IEnumerable<DeviceDTO> GetDevicesBySectionId(int sectionId)
         {
-            return await dbContext.Devices.Where(d => d.SectionId == sectionId).ToListAsync();
+            return dbContext.Devices.Where(d => d.SectionId == sectionId)
+                .Select(DeviceDTO.FromDevice)
+                .ToList();
         }
 
-        public async Task<Device> CreateDeviceAsync(CreateDeviceModel model)
+        public async Task CreateDeviceAsync(CreateDeviceModel model)
         {
             var device = Device.FromCreateModel(model);
 
             dbContext.Devices.Add(device);
+            
             await dbContext.SaveChangesAsync();
-
-            return device;
         }
 
-        public async Task<Device> UpdateDeviceAsync(int id, UpdateDeviceModel model)
+        public async Task UpdateDeviceAsync(int id, UpdateDeviceModel model)
         {
             var device = await dbContext.Devices.FindAsync(id);
 
@@ -57,8 +63,6 @@ namespace SIC_Backend.Repositories
             device.SectionId = model.SectionId;
 
             await dbContext.SaveChangesAsync();
-
-            return device!;
         }
 
         public async Task DeleteDeviceAsync(int id)

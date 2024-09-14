@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SIC_Backend.Data.DTOs;
 using SIC_Backend.Data.Models;
 using SIC_Backend.Repositories;
 
@@ -9,28 +10,28 @@ namespace SIC_Backend.Controllers
     public class SectionsController(ISectionsRepository sectionsRepository, ILogger<SectionsController> logger) : ControllerBase
     {
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSectionById(int id)
+        public ActionResult<SectionDTO> GetSectionById(int id)
         {
             logger.LogDebug("SectionsController -> GetSectionById: getting section by id");
-            var section = await sectionsRepository.GetSectionByIdAsync(id);
+            var section = sectionsRepository.GetSectionById(id);
 
             return Ok(section);
         }
 
         [HttpGet("User/{userId}")]
-        public async Task<IActionResult> GetSectionsByUserId(string userId)
+        public ActionResult<IEnumerable<SectionDTO>> GetSectionsByUserId(string userId)
         {
             logger.LogDebug("SectionsController -> GetSectionsByUserId: getting sections by user id");
-            var sections = await sectionsRepository.GetSectionsByUserIdAsync(userId);
+            var sections = sectionsRepository.GetSectionsByUserId(userId);
 
             return Ok(sections);
         }
 
         [HttpGet("Place/{placeId}")]
-        public async Task<IActionResult> GetSectionsByPlaceId(int placeId)
+        public ActionResult<IEnumerable<SectionDTO>> GetSectionsByPlaceId(int placeId)
         {
             logger.LogDebug("SectionsController -> GetSectionsByPlaceId: getting sections by place id");
-            var sections = await sectionsRepository.GetSectionsByPlaceIdAsync(placeId);
+            var sections = sectionsRepository.GetSectionsByPlaceId(placeId);
 
             return Ok(sections);
         }
@@ -42,9 +43,9 @@ namespace SIC_Backend.Controllers
                 return BadRequest(ModelState);
 
             logger.LogDebug("SectionsController -> CreateSection: creating section");
-            var section = await sectionsRepository.CreateSectionAsync(model);
+            await sectionsRepository.CreateSectionAsync(model);
 
-            return Ok(section);
+            return NoContent();
         }
 
         [HttpPut("{id}")]
@@ -54,9 +55,9 @@ namespace SIC_Backend.Controllers
                 return BadRequest(ModelState);
 
             logger.LogDebug("SectionsController -> UpdateSection: updating section");
-            var section = await sectionsRepository.UpdateSectionAsync(id, model);
+            await sectionsRepository.UpdateSectionAsync(id, model);
 
-            return Ok(section);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

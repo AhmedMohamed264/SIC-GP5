@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SIC_Backend.Data.DTOs;
 using SIC_Backend.Data.Models;
 using SIC_Backend.Repositories;
 
@@ -10,19 +11,19 @@ namespace SIC_Backend.Controllers
     {
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<User>> GetUserById(string id)
+        public ActionResult<UserDTO> GetUserById(string id)
         {
             logger.LogDebug("UsersController -> GetUserByIdAsync: getting user by id");
-            var user = await usersRepository.GetUserByIdAsync(id);
+            var user = usersRepository.GetUserById(id);
             return Ok(user);
         }
 
         [HttpGet]
         [Route("UserName/{username}")]
-        public async Task<ActionResult<User>> GetUserByUsername(string username)
+        public ActionResult<UserDTO> GetUserByUsername(string username)
         {
             logger.LogDebug("UsersController -> GetUserByUsernameAsync: getting user by username");
-            var user = await usersRepository.GetUserByUsernameAsync(username);
+            var user = usersRepository.GetUserByUsername(username);
             return Ok(user);
         }
 
