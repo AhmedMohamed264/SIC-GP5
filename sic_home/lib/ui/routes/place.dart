@@ -95,51 +95,74 @@ class PlaceContent extends StatelessWidget {
       body: SafeArea(
         child: BlocBuilder<PlaceBloc, PlaceState>(
           builder: (context, state) {
-            return GridView.builder(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: BorderSide.strokeAlignCenter,
-                mainAxisSpacing: BorderSide.strokeAlignCenter,
-              ),
-              itemBuilder: (context, index) => Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3),
+            return state.user.places
+                    .where((element) => element.id == place.id)
+                    .first
+                    .sections
+                    .isNotEmpty
+                ? GridView.builder(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: BorderSide.strokeAlignCenter,
+                      mainAxisSpacing: BorderSide.strokeAlignCenter,
                     ),
-                  ],
-                ),
-                margin: const EdgeInsets.all(20),
-                child: Stack(
-                  children: [
-                    Image.asset(
-                      'lib/assets/bgs/cardbg1.png',
-                      fit: BoxFit.cover,
-                    ),
-                    Center(
-                      child: Text(
-                        state.user.places
-                            .where((element) => element.id == place.id)
-                            .first
-                            .sections[index]
-                            .name,
-                        style: TextStyles.titleStyle,
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        RouteGenerator.mainNavigatorkey.currentState?.pushNamed(
+                          RouteGenerator.sectionPage,
+                          arguments: state.user.places
+                              .where((element) => element.id == place.id)
+                              .first
+                              .sections[index],
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        margin: const EdgeInsets.all(20),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'lib/assets/bgs/cardbg1.png',
+                              fit: BoxFit.cover,
+                            ),
+                            Center(
+                              child: Text(
+                                state.user.places
+                                    .where((element) => element.id == place.id)
+                                    .first
+                                    .sections[index]
+                                    .name,
+                                style: TextStyles.titleStyle,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              itemCount: state.user.places
-                  .where((element) => element.id == place.id)
-                  .first
-                  .sections
-                  .length,
-            );
+                    itemCount: state.user.places
+                        .where((element) => element.id == place.id)
+                        .first
+                        .sections
+                        .length,
+                  )
+                : Center(
+                    child: Text(
+                      'No Sections',
+                      style: TextStyles.subtitleStyle,
+                    ),
+                  );
           },
         ),
       ),

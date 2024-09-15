@@ -106,48 +106,56 @@ class HomeContent extends StatelessWidget {
       body: SafeArea(
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
-            return GridView.builder(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: BorderSide.strokeAlignCenter,
-                mainAxisSpacing: BorderSide.strokeAlignCenter,
-              ),
-              itemBuilder: (context, index) => GestureDetector(
-                onTap: () => RouteGenerator.mainNavigatorkey.currentState!
-                    .pushNamed(RouteGenerator.placePage,
-                        arguments: state.user.places[index]),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  margin: const EdgeInsets.all(20),
-                  child: Stack(
-                    children: [
-                      Image.asset(
-                        'lib/assets/bgs/cardbg1.png',
-                        fit: BoxFit.cover,
-                      ),
-                      Center(
-                        child: Text(
-                          state.user.places[index].name,
-                          style: TextStyles.titleStyle,
+            return state.user.places.isNotEmpty
+                ? GridView.builder(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: BorderSide.strokeAlignCenter,
+                      mainAxisSpacing: BorderSide.strokeAlignCenter,
+                    ),
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () => RouteGenerator.mainNavigatorkey.currentState!
+                          .pushNamed(RouteGenerator.placePage,
+                              arguments: state.user.places[index]),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        margin: const EdgeInsets.all(20),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'lib/assets/bgs/cardbg1.png',
+                              fit: BoxFit.cover,
+                            ),
+                            Center(
+                              child: Text(
+                                state.user.places[index].name,
+                                style: TextStyles.titleStyle,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              itemCount: state.user.places.length,
-            );
+                    ),
+                    itemCount: state.user.places.length,
+                  )
+                : Center(
+                    child: Text(
+                      'No places yet',
+                      style: TextStyles.subtitleStyle,
+                    ),
+                  );
           },
         ),
       ),
