@@ -115,40 +115,53 @@ class SectionContent extends StatelessWidget {
                       crossAxisSpacing: BorderSide.strokeAlignCenter,
                       mainAxisSpacing: BorderSide.strokeAlignCenter,
                     ),
-                    itemBuilder: (context, index) => Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      margin: const EdgeInsets.all(20),
-                      child: Stack(
-                        children: [
-                          Image.asset(
-                            'lib/assets/bgs/cardbg1.png',
-                            fit: BoxFit.cover,
-                          ),
-                          Center(
-                            child: Text(
-                              state.user.places
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () => RouteGenerator.mainNavigatorkey.currentState!
+                          .pushNamed(RouteGenerator.devicePage,
+                              arguments: state.user.places
                                   .where((element) => element.sections.any(
                                       (element) => element.id == section.id))
                                   .first
                                   .sections
                                   .where((element) => element.id == section.id)
                                   .first
-                                  .devices[index]
-                                  .name,
-                              style: TextStyles.titleStyle,
+                                  .devices[index]),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: const Offset(0, 3),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                        margin: const EdgeInsets.all(20),
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              'lib/assets/bgs/cardbg1.png',
+                              fit: BoxFit.cover,
+                            ),
+                            Center(
+                              child: Text(
+                                state.user.places
+                                    .where((element) => element.sections.any(
+                                        (element) => element.id == section.id))
+                                    .first
+                                    .sections
+                                    .where(
+                                        (element) => element.id == section.id)
+                                    .first
+                                    .devices[index]
+                                    .name,
+                                style: TextStyles.titleStyle,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     itemCount: state.user.places

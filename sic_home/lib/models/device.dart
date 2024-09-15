@@ -21,6 +21,7 @@ class Device {
   String userId;
   int placeId;
   int sectionId;
+  int pin;
 
   Device({
     required this.id,
@@ -29,6 +30,7 @@ class Device {
     required this.userId,
     required this.placeId,
     required this.sectionId,
+    required this.pin,
   });
 
   factory Device.fromJson(Map<String, dynamic> json) => _$DeviceFromJson(json);

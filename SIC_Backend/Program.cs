@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SIC_Backend.Data;
 using SIC_Backend.Data.Models;
+using SIC_Backend.Hubs;
 using SIC_Backend.Repositories;
 using SIC_Backend.Services;
 using System.Text;
@@ -82,6 +83,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapHub<DevicesDataHub>("/DevicesDataHub");
 
 app.UseAuthorization();
 

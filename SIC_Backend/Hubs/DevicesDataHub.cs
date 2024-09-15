@@ -4,10 +4,10 @@ namespace SIC_Backend.Hubs
 {
     public class DevicesDataHub(ILogger<DevicesDataHub> logger) : Hub<IDeviceClient>
     {
-        public async Task SubscribeToDevice(string connectionId, int deviceId)
+        public async Task SubscribeToDevice(string connectionId, string deviceId)
         {
             logger.LogDebug($"Subscribing user {connectionId} to device {deviceId}");
-            await Groups.AddToGroupAsync(connectionId, $"{deviceId}");
+            await Groups.AddToGroupAsync(connectionId, deviceId);
             logger.LogDebug($"User {connectionId} subscribed to device {deviceId}");
         }
 

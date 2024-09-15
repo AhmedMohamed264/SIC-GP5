@@ -18,6 +18,7 @@ namespace SIC_Backend.Data.Models
         public required string UserId { get; set; }
         public int SectionId { get; set; }
         public int PlaceId { get; set; }
+        public int Pin { get; set; }
 
         public User? User { get; set; }
         public Section? Section { get; set; }

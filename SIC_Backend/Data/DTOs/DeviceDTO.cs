@@ -10,6 +10,7 @@ namespace SIC_Backend.Data.DTOs
         public required string UserId { get; set; }
         public int SectionId { get; set; }
         public int PlaceId { get; set; }
+        public int Pin { get; set; }
 
         public static DeviceDTO FromDevice(Device device)
         {
@@ -20,7 +21,8 @@ namespace SIC_Backend.Data.DTOs
                 DataType = device.DataType,
                 UserId = device.UserId,
                 SectionId = device.SectionId,
-                PlaceId = device.PlaceId
+                PlaceId = device.PlaceId,
+                Pin = device.Pin
             };
         }
     }

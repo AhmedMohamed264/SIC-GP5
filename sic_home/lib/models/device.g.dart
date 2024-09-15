@@ -13,6 +13,7 @@ Device _$DeviceFromJson(Map<String, dynamic> json) => Device(
       userId: json['userId'] as String,
       placeId: (json['placeId'] as num).toInt(),
       sectionId: (json['sectionId'] as num).toInt(),
+      pin: (json['pin'] as num).toInt(),
     );
 
 Map<String, dynamic> _$DeviceToJson(Device instance) => <String, dynamic>{
@@ -22,6 +23,7 @@ Map<String, dynamic> _$DeviceToJson(Device instance) => <String, dynamic>{
       'userId': instance.userId,
       'placeId': instance.placeId,
       'sectionId': instance.sectionId,
+      'pin': instance.pin,
     };
 
 const _$DeviceDataTypeEnumMap = {
