@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sic_home/config.dart';
 import 'package:sic_home/models/device.dart';
 import 'package:signalr_netcore/hub_connection_builder.dart';
 
@@ -50,7 +51,7 @@ class DeviceBloc extends Bloc<Object, DeviceState> {
           ),
         );
 
-        const serverUrl = 'http://ahmedafifi-pc:5283/DevicesDataHub';
+        final serverUrl = '${Config().api}/DevicesDataHub';
         final hubConnection = HubConnectionBuilder().withUrl(serverUrl).build();
         await hubConnection.start();
         log('Connection started');

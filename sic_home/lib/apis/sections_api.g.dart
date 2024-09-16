@@ -14,7 +14,7 @@ class _SectionsApi implements SectionsApi {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://ahmedafifi-pc:5283/Sections/';
+    baseUrl ??= 'http://ahmedafifi-lt:5283/Sections/';
   }
 
   final Dio _dio;
