@@ -1,0 +1,58 @@
+import cv2
+import dlib
+import numpy as np
+from datetime import datetime
+from gpiozero import Buzzer
+import time
+
+buzzer = Buzzer(17)
+
+known_faces = []
+known_names = ["Person1", "Person2", "Person3", "Person4", "Person5", "Person6"]
+for name in known_names:
+    img = cv2.imread(f"images/{name}.jpg")
+    known_faces.append(img)
+
+def recognize_face(frame):
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    face_detector = dlib.get_frontal_face_detector()
+    faces = face_detector(gray)
+    
+    for face in faces:
+        (x, y, w, h) = (face.left(), face.top(), face.right() - face.left(), face.bottom() - face.top())
+        face_crop = frame[y:y+h, x:x+w]
+        for i, known_face in enumerate(known_faces):
+            if np.array_equal(face_crop, known_face):
+                return known_names[i]
+    return None
+
+def log_entry(name):
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"{name} entered at {datetime.now()}\n")
+
+def trigger_alarm():
+    buzzer.on()
+    time.sleep(1)
+    buzzer.off()
+
+cap = cv2.VideoCapture(0)
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        continue
+    
+    recognized_name = recognize_face(frame)
+    
+    if recognized_name:
+        log_entry(recognized_name)
+    else:
+        trigger_alarm()
+        log_entry("Unknown Person")
+    
+    cv2.imshow("Camera", frame)
+    
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
