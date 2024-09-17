@@ -14,7 +14,7 @@ class _PlacesApi implements PlacesApi {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://ahmedafifi-lt:5283/Places/';
+    baseUrl ??= 'http://ahmedafifi-pc:5283/Places/';
   }
 
   final Dio _dio;

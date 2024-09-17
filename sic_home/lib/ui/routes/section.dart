@@ -86,6 +86,7 @@ class SectionContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textController = TextEditingController();
+    final pinController = TextEditingController();
     final dropdownController = TextEditingController();
 
     return Scaffold(
@@ -210,6 +211,21 @@ class SectionContent extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
+                    TextField(
+                      controller: pinController,
+                      decoration: const InputDecoration(
+                        labelText: 'Pin',
+                        filled: true,
+                        fillColor: Color.fromRGBO(80, 80, 80, 0.3),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     DropdownMenu(
                       onSelected: (value) {
                         log(dropdownController.text);
@@ -257,7 +273,7 @@ class SectionContent extends StatelessWidget {
                         AddDeviceEvent(
                           CreateDeviceModel(
                             name: textController.text,
-                            // dataType: DeviceDataType.boolean,
+                            pin: int.parse(pinController.text),
                             dataType: dropdownController.text == 'Integer'
                                 ? DeviceDataType.integer
                                 : dropdownController.text == 'Float'

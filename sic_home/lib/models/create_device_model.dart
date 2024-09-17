@@ -10,6 +10,7 @@ class CreateDeviceModel {
   String userId;
   int placeId;
   int sectionId;
+  int pin;
 
   CreateDeviceModel({
     required this.name,
@@ -17,6 +18,7 @@ class CreateDeviceModel {
     required this.userId,
     required this.placeId,
     required this.sectionId,
+    required this.pin,
   });
 
   factory CreateDeviceModel.fromJson(Map<String, dynamic> json) =>

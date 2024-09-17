@@ -66,10 +66,12 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddSingleton(notificationService);
 builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<IFilesService, FilesService>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IPlacesRepository, PlacesRepository>();
 builder.Services.AddScoped<ISectionsRepository, SectionsRepository>();
 builder.Services.AddScoped<IDevicesRepository, DevicesRepository>();
+builder.Services.AddScoped<IFilesRepository, FilesRepository>();
 
 builder.Services.AddSignalR();
 

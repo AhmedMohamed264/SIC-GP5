@@ -11,6 +11,7 @@ namespace SIC_Backend.Data
         public DbSet<Section> Sections { get; set; }
         public DbSet<Device> Devices { get; set; }
         public DbSet<NotificationToken> NotificationTokens { get; set; }
+        public DbSet<SicImage> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -23,6 +24,7 @@ namespace SIC_Backend.Data
             builder.Entity<Section>().ToTable("sections").HasMany(s => s.Devices).WithOne(d => d.Section);
             builder.Entity<Device>().ToTable("devices").Property(d => d.DataType).HasConversion<string>();
             builder.Entity<NotificationToken>().ToTable("notification_tokens").HasOne(nt => nt.User).WithMany(u => u.NotificationTokens);
+            builder.Entity<SicImage>().ToTable("images");
         }
     }
 }

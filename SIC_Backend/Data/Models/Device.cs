@@ -32,7 +32,8 @@ namespace SIC_Backend.Data.Models
                 DataType = model.DataType,
                 UserId = model.UserId,
                 PlaceId = model.PlaceId,
-                SectionId = model.SectionId
+                SectionId = model.SectionId,
+                Pin = model.Pin
             };
         }
     }

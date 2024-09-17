@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "877665265236",
+    "project_id": "sic-home",
+    "storage_bucket": "sic-home.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877665265236:android:7408b5161eef1aea572fc1",
+        "android_client_info": {
+          "package_name": "com.sic.home"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBE4a7veg3zB-ekyM2HPb8gCU5wS3I6zv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

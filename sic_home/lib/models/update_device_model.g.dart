@@ -12,6 +12,7 @@ UpdateDeviceModel _$UpdateDeviceModelFromJson(Map<String, dynamic> json) =>
       dataType: $enumDecode(_$DeviceDataTypeEnumMap, json['dataType']),
       placeId: (json['placeId'] as num).toInt(),
       sectionId: (json['sectionId'] as num).toInt(),
+      pin: (json['pin'] as num).toInt(),
     );
 
 Map<String, dynamic> _$UpdateDeviceModelToJson(UpdateDeviceModel instance) =>
@@ -20,6 +21,7 @@ Map<String, dynamic> _$UpdateDeviceModelToJson(UpdateDeviceModel instance) =>
       'dataType': _$DeviceDataTypeEnumMap[instance.dataType]!,
       'placeId': instance.placeId,
       'sectionId': instance.sectionId,
+      'pin': instance.pin,
     };
 
 const _$DeviceDataTypeEnumMap = {

@@ -1,6 +1,15 @@
+import 'dart:io';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sic_home/apis/authentication/token_manager.dart';
 import 'package:sic_home/config.dart';
+import 'package:sic_home/firebase_options.dart';
+import 'package:sic_home/models/authentication/notification_token.dart'
+    as notification_token;
 import 'package:sic_home/repositories/authentication_repository.dart';
+import 'package:sic_home/services/firebase_cloud_messaging.dart';
 import 'package:sic_home/ui/routes/route_generator.dart';
 
 enum StartupStates {
@@ -41,40 +50,40 @@ class StartupBloc extends Bloc<Object, Object> {
 
   Future initializeApp() async {
     await Config.load();
-    // late final Future<FirebaseApp> initialization;
-    // initialization =
-    //     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-    // await initialization;
+    late final Future<FirebaseApp> initialization;
+    initialization =
+        Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await initialization;
     await AuthenticationRepository().authenticationService.loadUser();
 
-    // late notification_token.Platform platform;
-    // if (Platform.isAndroid) {
-    //   platform = notification_token.Platform.android;
-    // } else if (Platform.isIOS) {
-    //   platform = notification_token.Platform.ios;
-    // } else if (kIsWeb) {
-    //   platform = notification_token.Platform.web;
-    // }
+    late notification_token.Platform platform;
+    if (Platform.isAndroid) {
+      platform = notification_token.Platform.android;
+    } else if (Platform.isIOS) {
+      platform = notification_token.Platform.ios;
+    } else if (kIsWeb) {
+      platform = notification_token.Platform.web;
+    }
 
-    // if (!kIsWeb) {
-    //   // until adding the vapid key for web support.
-    //   // String fcmToken = await FCM().init();
+    if (!kIsWeb) {
+      // until adding the vapid key for web support.
+      String fcmToken = await FCM().init();
 
-    //   if (AuthenticationRepository().authenticationService.currentUser() !=
-    //       null) {
-    //     notification_token.NotificationToken notificationToken =
-    //         notification_token.NotificationToken(
-    //       token: fcmToken,
-    //       userId: AuthenticationRepository()
-    //           .authenticationService
-    //           .currentUser()!
-    //           .id,
-    //       platform: platform,
-    //     );
+      if (AuthenticationRepository().authenticationService.currentUser() !=
+          null) {
+        notification_token.NotificationToken notificationToken =
+            notification_token.NotificationToken(
+          token: fcmToken,
+          userId: AuthenticationRepository()
+              .authenticationService
+              .currentUser()!
+              .id,
+          platform: platform,
+        );
 
-    //     await TokenManager().saveNotificationToken(notificationToken);
-    //   }
-    // }
+        await TokenManager().saveNotificationToken(notificationToken);
+      }
+    }
 
     add(StartupCompleted());
   }

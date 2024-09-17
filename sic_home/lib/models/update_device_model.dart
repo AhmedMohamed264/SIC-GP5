@@ -9,12 +9,14 @@ class UpdateDeviceModel {
   DeviceDataType dataType;
   int placeId;
   int sectionId;
+  int pin;
 
   UpdateDeviceModel({
     required this.name,
     required this.dataType,
     required this.placeId,
     required this.sectionId,
+    required this.pin,
   });
 
   factory UpdateDeviceModel.fromJson(Map<String, dynamic> json) =>

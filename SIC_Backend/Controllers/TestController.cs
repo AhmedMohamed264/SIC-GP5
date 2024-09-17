@@ -17,8 +17,32 @@ namespace SIC_Backend.Controllers
         }
 
         [HttpPost]
-        [Route("publish/{pin}")]
-        public async Task<ActionResult> PublishData(int pin, int data, [FromServices] IHubContext<DevicesDataHub> hubContext)
+        [Route("publish/int/{pin}")]
+        public async Task<ActionResult> PublishInt(int pin, int data, [FromServices] IHubContext<DevicesDataHub> hubContext)
+        {
+            await hubContext.Clients.Group(pin.ToString()).SendAsync("ReceiveData", data);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("publish/float/{pin}")]
+        public async Task<ActionResult> PublishFloat(int pin, float data, [FromServices] IHubContext<DevicesDataHub> hubContext)
+        {
+            await hubContext.Clients.Group(pin.ToString()).SendAsync("ReceiveData", data);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("publish/string/{pin}")]
+        public async Task<ActionResult> PublishString(int pin, string data, [FromServices] IHubContext<DevicesDataHub> hubContext)
+        {
+            await hubContext.Clients.Group(pin.ToString()).SendAsync("ReceiveData", data);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("publish/boolean/{pin}")]
+        public async Task<ActionResult> PublishBoolean(int pin, bool data, [FromServices] IHubContext<DevicesDataHub> hubContext)
         {
             await hubContext.Clients.Group(pin.ToString()).SendAsync("ReceiveData", data);
             return Ok();
