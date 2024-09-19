@@ -14,7 +14,7 @@ class _UsersApi implements UsersApi {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://ahmedafifi-pc:5283/Users/';
+    baseUrl ??= 'http://ahmedafifi-lt:5283/Users/';
   }
 
   final Dio _dio;

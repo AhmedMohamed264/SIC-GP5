@@ -1,8 +1,11 @@
+import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sic_home/models/create_section_model.dart';
 import 'package:sic_home/models/place.dart';
+import 'package:sic_home/models/place_args.dart';
+import 'package:sic_home/models/section_args.dart';
 import 'package:sic_home/repositories/authentication_repository.dart';
 import 'package:sic_home/repositories/sections_repository.dart';
 import 'package:sic_home/repositories/users_repository.dart';
@@ -11,9 +14,9 @@ import 'package:sic_home/ui/routes/route_generator.dart';
 import 'package:sic_home/ui/styles/text_styles.dart';
 
 class PlacePage extends StatelessWidget {
-  final Place place;
+  final PlaceArgs placeArgs;
 
-  const PlacePage(this.place, {super.key});
+  const PlacePage(this.placeArgs, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,7 @@ class PlacePage extends StatelessWidget {
         create: (context) => PlaceBloc(
           RepositoryProvider.of<UsersRepository>(context),
           RepositoryProvider.of<SectionsRepository>(context),
+          placeArgs.user,
         )..add(LoadEvent()),
         child: BlocListener<PlaceBloc, PlaceState>(
           listener: (context, state) {
@@ -69,7 +73,7 @@ class PlacePage extends StatelessWidget {
               );
             }
           },
-          child: PlaceContent(place),
+          child: PlaceContent(placeArgs.place),
         ),
       ),
     );
@@ -95,6 +99,13 @@ class PlaceContent extends StatelessWidget {
       body: SafeArea(
         child: BlocBuilder<PlaceBloc, PlaceState>(
           builder: (context, state) {
+            log(state.user.places
+                .where((element) => element.id == place.id)
+                .first
+                .sections
+                .isNotEmpty
+                .toString());
+            log("Sections Length: ${state.user.places.where((element) => element.id == place.id).first.sections.length}");
             return state.user.places
                     .where((element) => element.id == place.id)
                     .first
@@ -112,10 +123,12 @@ class PlaceContent extends StatelessWidget {
                       onTap: () {
                         RouteGenerator.mainNavigatorkey.currentState?.pushNamed(
                           RouteGenerator.sectionPage,
-                          arguments: state.user.places
-                              .where((element) => element.id == place.id)
-                              .first
-                              .sections[index],
+                          arguments: SectionArgs(
+                              state.user,
+                              state.user.places
+                                  .where((element) => element.id == place.id)
+                                  .first
+                                  .sections[index]),
                         );
                       },
                       child: Container(

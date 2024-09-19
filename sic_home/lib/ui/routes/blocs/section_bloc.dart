@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sic_home/models/create_device_model.dart';
 import 'package:sic_home/models/user.dart';
-import 'package:sic_home/repositories/authentication_repository.dart';
 import 'package:sic_home/repositories/devices_repository.dart';
 import 'package:sic_home/repositories/users_repository.dart';
 import 'package:sic_home/ui/routes/route_generator.dart';
@@ -29,13 +28,12 @@ class AddDeviceEvent {
 }
 
 class SectionBloc extends Bloc<Object, SectionState> {
-  SectionBloc(
-      UsersRepository usersRepository, DevicesRepository decvicesRepository)
+  SectionBloc(UsersRepository usersRepository,
+      DevicesRepository decvicesRepository, User user)
       : super(
           SectionState(
             state: SectionStates.initial,
-            user:
-                AuthenticationRepository().authenticationService.currentUser()!,
+            user: user,
           ),
         ) {
     on<LoadEvent>(

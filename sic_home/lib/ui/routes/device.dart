@@ -4,18 +4,19 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sic_home/models/device.dart';
+import 'package:sic_home/models/device_args.dart';
 import 'package:sic_home/ui/routes/blocs/device_bloc.dart';
 
 class DevicePage extends StatelessWidget {
-  final Device device;
+  final DeviceArgs deviceArgs;
 
-  const DevicePage(this.device, {super.key});
+  const DevicePage(this.deviceArgs, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DeviceBloc(device),
-      child: DeviceContent(device),
+      create: (context) => DeviceBloc(deviceArgs.device, deviceArgs.user),
+      child: DeviceContent(deviceArgs.device),
     );
   }
 }
@@ -36,12 +37,19 @@ class DeviceContent extends StatelessWidget {
       body: BlocConsumer<DeviceBloc, DeviceState>(
         listener: (context, state) {
           log('Device state: ${state.data}');
-          totalPointsCount++;
-          if (dataPoints.length > 10) {
-            dataPoints.removeAt(0);
+
+          if (state.state != DeviceStates.initial && state.data.isNotEmpty) {
+            totalPointsCount++;
+            if (dataPoints.length > 10) {
+              dataPoints.removeAt(0);
+            }
+            dataPoints.add(
+              FlSpot(
+                double.parse(totalPointsCount.toString()),
+                double.parse(state.data),
+              ),
+            );
           }
-          dataPoints.add(FlSpot(double.parse(totalPointsCount.toString()),
-              double.parse(state.data)));
         },
         builder: (context, state) {
           return Center(

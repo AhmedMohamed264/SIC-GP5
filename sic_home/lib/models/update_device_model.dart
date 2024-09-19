@@ -6,14 +6,14 @@ part 'update_device_model.g.dart';
 @JsonSerializable()
 class UpdateDeviceModel {
   String name;
-  DeviceDataType dataType;
+  DeviceType deviceType;
   int placeId;
   int sectionId;
   int pin;
 
   UpdateDeviceModel({
     required this.name,
-    required this.dataType,
+    required this.deviceType,
     required this.placeId,
     required this.sectionId,
     required this.pin,

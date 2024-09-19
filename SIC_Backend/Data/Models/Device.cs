@@ -10,11 +10,17 @@ namespace SIC_Backend.Data.Models
         Boolean
     }
 
+    public enum DeviceTypes
+    {
+        OnOff,
+        Analog,
+    }
+
     public class Device
     {
         public int Id { get; set; }
         public required string Name { get; set; }
-        public required DeviceDataTypes DataType { get; set; }
+        public required DeviceTypes DeviceType { get; set; }
         public required string UserId { get; set; }
         public int SectionId { get; set; }
         public int PlaceId { get; set; }
@@ -29,7 +35,7 @@ namespace SIC_Backend.Data.Models
             return new Device
             {
                 Name = model.Name,
-                DataType = model.DataType,
+                DeviceType = model.DeviceType,
                 UserId = model.UserId,
                 PlaceId = model.PlaceId,
                 SectionId = model.SectionId,

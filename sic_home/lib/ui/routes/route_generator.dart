@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:sic_home/models/device.dart';
-import 'package:sic_home/models/place.dart';
-import 'package:sic_home/models/section.dart';
+import 'package:sic_home/models/device_args.dart';
+import 'package:sic_home/models/place_args.dart';
+import 'package:sic_home/models/section_args.dart';
 import 'package:sic_home/ui/routes/device.dart';
 import 'package:sic_home/ui/routes/home.dart';
 import 'package:sic_home/ui/routes/login.dart';
@@ -37,13 +37,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const Home());
       case placePage:
         return MaterialPageRoute(
-            builder: (_) => PlacePage(settings.arguments as Place));
+            builder: (_) => PlacePage(settings.arguments as PlaceArgs));
       case sectionPage:
         return MaterialPageRoute(
-            builder: (_) => SectionPage(settings.arguments as Section));
+            builder: (_) => SectionPage(settings.arguments as SectionArgs));
       case devicePage:
         return MaterialPageRoute(
-            builder: (_) => DevicePage(settings.arguments as Device));
+            builder: (_) => DevicePage(settings.arguments as DeviceArgs));
       default:
         throw const FormatException("Route not found");
     }

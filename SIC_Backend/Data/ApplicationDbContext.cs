@@ -22,7 +22,7 @@ namespace SIC_Backend.Data
             builder.Entity<Place>().ToTable("places").HasMany(p => p.Devices).WithOne(d => d.Place);
             builder.Entity<Place>().ToTable("places").HasMany(p => p.Sections).WithOne(s => s.Place);
             builder.Entity<Section>().ToTable("sections").HasMany(s => s.Devices).WithOne(d => d.Section);
-            builder.Entity<Device>().ToTable("devices").Property(d => d.DataType).HasConversion<string>();
+            builder.Entity<Device>().ToTable("devices").Property(d => d.DeviceType).HasConversion<string>();
             builder.Entity<NotificationToken>().ToTable("notification_tokens").HasOne(nt => nt.User).WithMany(u => u.NotificationTokens);
             builder.Entity<SicImage>().ToTable("images");
         }

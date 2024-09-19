@@ -17,5 +17,12 @@ namespace SIC_Backend.Hubs
             await Groups.RemoveFromGroupAsync(connectionId, $"{deviceId}");
             logger.LogDebug($"User {connectionId} unsubscribed from device {deviceId}");
         }
+
+        public async Task RegisterTTS()
+        {
+            logger.LogDebug($"Registering TTS with id {Context.ConnectionId}");
+            await Groups.AddToGroupAsync(Context.ConnectionId, "TTS");
+            logger.LogDebug($"TTS with id {Context.ConnectionId} registered");
+        }
     }
 }

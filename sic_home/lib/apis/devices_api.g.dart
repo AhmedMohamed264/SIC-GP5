@@ -14,7 +14,7 @@ class _DevicesApi implements DevicesApi {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://ahmedafifi-pc:5283/Devices/';
+    baseUrl ??= 'http://ahmedafifi-lt:5283/Devices/';
   }
 
   final Dio _dio;

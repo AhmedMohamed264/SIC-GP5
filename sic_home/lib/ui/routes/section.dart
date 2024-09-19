@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sic_home/models/create_device_model.dart';
 import 'package:sic_home/models/device.dart';
+import 'package:sic_home/models/device_args.dart';
 import 'package:sic_home/models/section.dart';
+import 'package:sic_home/models/section_args.dart';
 import 'package:sic_home/repositories/authentication_repository.dart';
 import 'package:sic_home/repositories/devices_repository.dart';
 import 'package:sic_home/repositories/users_repository.dart';
@@ -13,9 +15,9 @@ import 'package:sic_home/ui/routes/route_generator.dart';
 import 'package:sic_home/ui/styles/text_styles.dart';
 
 class SectionPage extends StatelessWidget {
-  final Section section;
+  final SectionArgs sectionArgs;
 
-  const SectionPage(this.section, {super.key});
+  const SectionPage(this.sectionArgs, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class SectionPage extends StatelessWidget {
         create: (context) => SectionBloc(
           RepositoryProvider.of<UsersRepository>(context),
           RepositoryProvider.of<DevicesRepository>(context),
+          sectionArgs.user,
         )..add(LoadEvent()),
         child: BlocListener<SectionBloc, SectionState>(
           listener: (context, state) {
@@ -71,7 +74,7 @@ class SectionPage extends StatelessWidget {
               );
             }
           },
-          child: SectionContent(section),
+          child: SectionContent(sectionArgs.section),
         ),
       ),
     );
@@ -119,14 +122,18 @@ class SectionContent extends StatelessWidget {
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () => RouteGenerator.mainNavigatorkey.currentState!
                           .pushNamed(RouteGenerator.devicePage,
-                              arguments: state.user.places
-                                  .where((element) => element.sections.any(
-                                      (element) => element.id == section.id))
-                                  .first
-                                  .sections
-                                  .where((element) => element.id == section.id)
-                                  .first
-                                  .devices[index]),
+                              arguments: DeviceArgs(
+                                  state.user,
+                                  state.user.places
+                                      .where((element) => element.sections.any(
+                                          (element) =>
+                                              element.id == section.id))
+                                      .first
+                                      .sections
+                                      .where(
+                                          (element) => element.id == section.id)
+                                      .first
+                                      .devices[index])),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
@@ -241,19 +248,11 @@ class SectionContent extends StatelessWidget {
                       dropdownMenuEntries: const [
                         DropdownMenuEntry(
                           value: DeviceDataType.integer,
-                          label: 'Integer',
+                          label: 'On/Off',
                         ),
                         DropdownMenuEntry(
                           value: DeviceDataType.float,
-                          label: 'Float',
-                        ),
-                        DropdownMenuEntry(
-                          value: DeviceDataType.string,
-                          label: 'String',
-                        ),
-                        DropdownMenuEntry(
-                          value: DeviceDataType.boolean,
-                          label: 'Boolean',
+                          label: 'Numerical Data',
                         ),
                       ],
                     ),
@@ -274,13 +273,9 @@ class SectionContent extends StatelessWidget {
                           CreateDeviceModel(
                             name: textController.text,
                             pin: int.parse(pinController.text),
-                            dataType: dropdownController.text == 'Integer'
-                                ? DeviceDataType.integer
-                                : dropdownController.text == 'Float'
-                                    ? DeviceDataType.float
-                                    : dropdownController.text == 'String'
-                                        ? DeviceDataType.string
-                                        : DeviceDataType.boolean,
+                            deviceType: dropdownController.text == 'On/Off'
+                                ? DeviceType.onoff
+                                : DeviceType.analog,
                             placeId: section.placeId,
                             sectionId: section.id,
                             userId: AuthenticationRepository()

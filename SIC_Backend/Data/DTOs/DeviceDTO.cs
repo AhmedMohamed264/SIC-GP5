@@ -6,7 +6,7 @@ namespace SIC_Backend.Data.DTOs
     {
         public int Id { get; set; }
         public required string Name { get; set; }
-        public required DeviceDataTypes DataType { get; set; }
+        public required DeviceTypes DeviceType { get; set; }
         public required string UserId { get; set; }
         public int SectionId { get; set; }
         public int PlaceId { get; set; }
@@ -18,7 +18,7 @@ namespace SIC_Backend.Data.DTOs
             {
                 Id = device.Id,
                 Name = device.Name,
-                DataType = device.DataType,
+                DeviceType = device.DeviceType,
                 UserId = device.UserId,
                 SectionId = device.SectionId,
                 PlaceId = device.PlaceId,

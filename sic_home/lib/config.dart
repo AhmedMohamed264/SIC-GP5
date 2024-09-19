@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 class Config {
   final String api;
-  static const String baseUrl = 'http://ahmedafifi-pc:5283';
+  static const String baseUrl = 'http://ahmedafifi-lt:5283';
 
   static late Config _instance;
 

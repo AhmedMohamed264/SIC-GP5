@@ -11,4 +11,10 @@ class TextStyles {
       const TextStyle(fontSize: 16, color: Colors.grey, fontFamily: "Pacifico");
   static TextStyle greetingTitleStyle =
       const TextStyle(fontSize: 26, fontWeight: FontWeight.bold);
+
+  static TextStyle titleStyleDark = const TextStyle(
+    fontSize: 26,
+    fontWeight: FontWeight.bold,
+    color: Colors.grey,
+  );
 }

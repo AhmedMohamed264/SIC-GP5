@@ -6,7 +6,7 @@ part 'create_device_model.g.dart';
 @JsonSerializable()
 class CreateDeviceModel {
   String name;
-  DeviceDataType dataType;
+  DeviceType deviceType;
   String userId;
   int placeId;
   int sectionId;
@@ -14,7 +14,7 @@ class CreateDeviceModel {
 
   CreateDeviceModel({
     required this.name,
-    required this.dataType,
+    required this.deviceType,
     required this.userId,
     required this.placeId,
     required this.sectionId,

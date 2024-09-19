@@ -13,11 +13,18 @@ enum DeviceDataType {
   boolean,
 }
 
+enum DeviceType {
+  @JsonValue(0)
+  onoff,
+  @JsonValue(1)
+  analog,
+}
+
 @JsonSerializable()
 class Device {
   int id;
   String name;
-  DeviceDataType dataType;
+  DeviceType deviceType;
   String userId;
   int placeId;
   int sectionId;
@@ -26,7 +33,7 @@ class Device {
   Device({
     required this.id,
     required this.name,
-    required this.dataType,
+    required this.deviceType,
     required this.userId,
     required this.placeId,
     required this.sectionId,

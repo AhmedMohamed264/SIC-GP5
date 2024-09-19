@@ -9,7 +9,7 @@ part of 'create_device_model.dart';
 CreateDeviceModel _$CreateDeviceModelFromJson(Map<String, dynamic> json) =>
     CreateDeviceModel(
       name: json['name'] as String,
-      dataType: $enumDecode(_$DeviceDataTypeEnumMap, json['dataType']),
+      deviceType: $enumDecode(_$DeviceTypeEnumMap, json['deviceType']),
       userId: json['userId'] as String,
       placeId: (json['placeId'] as num).toInt(),
       sectionId: (json['sectionId'] as num).toInt(),
@@ -19,16 +19,14 @@ CreateDeviceModel _$CreateDeviceModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CreateDeviceModelToJson(CreateDeviceModel instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'dataType': _$DeviceDataTypeEnumMap[instance.dataType]!,
+      'deviceType': _$DeviceTypeEnumMap[instance.deviceType]!,
       'userId': instance.userId,
       'placeId': instance.placeId,
       'sectionId': instance.sectionId,
       'pin': instance.pin,
     };
 
-const _$DeviceDataTypeEnumMap = {
-  DeviceDataType.integer: 0,
-  DeviceDataType.float: 1,
-  DeviceDataType.string: 2,
-  DeviceDataType.boolean: 3,
+const _$DeviceTypeEnumMap = {
+  DeviceType.onoff: 0,
+  DeviceType.analog: 1,
 };

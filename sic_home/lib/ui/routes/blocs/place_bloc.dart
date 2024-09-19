@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sic_home/models/create_section_model.dart';
 import 'package:sic_home/models/user.dart';
-import 'package:sic_home/repositories/authentication_repository.dart';
 import 'package:sic_home/repositories/sections_repository.dart';
 import 'package:sic_home/repositories/users_repository.dart';
 import 'package:sic_home/ui/routes/route_generator.dart';
@@ -29,13 +28,12 @@ class AddSectionEvent {
 }
 
 class PlaceBloc extends Bloc<Object, PlaceState> {
-  PlaceBloc(
-      UsersRepository usersRepository, SectionsRepository sectionsRepository)
+  PlaceBloc(UsersRepository usersRepository,
+      SectionsRepository sectionsRepository, User user)
       : super(
           PlaceState(
             state: PlaceStates.initial,
-            user:
-                AuthenticationRepository().authenticationService.currentUser()!,
+            user: user,
           ),
         ) {
     on<LoadEvent>(

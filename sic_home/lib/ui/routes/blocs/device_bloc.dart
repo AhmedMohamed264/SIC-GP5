@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sic_home/config.dart';
 import 'package:sic_home/models/device.dart';
+import 'package:sic_home/models/user.dart';
 import 'package:signalr_netcore/hub_connection.dart';
 import 'package:signalr_netcore/hub_connection_builder.dart';
 
@@ -35,7 +36,7 @@ class DataReceivedEvent {
 class DeviceBloc extends Bloc<Object, DeviceState> {
   final Device device;
   late HubConnection hubConnection;
-  DeviceBloc(this.device)
+  DeviceBloc(this.device, User user)
       : super(
           DeviceState(
             state: DeviceStates.initial,

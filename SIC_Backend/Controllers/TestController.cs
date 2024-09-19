@@ -47,5 +47,13 @@ namespace SIC_Backend.Controllers
             await hubContext.Clients.Group(pin.ToString()).SendAsync("ReceiveData", data);
             return Ok();
         }
+
+        [HttpPost]
+        [Route("TTS/{text}")]
+        public async Task<ActionResult> TTS(string text, [FromServices] IHubContext<DevicesDataHub> hubContext)
+        {
+            await hubContext.Clients.Group("TTS").SendAsync("ToSpeach", text);
+            return Ok();
+        }
     }
 }
