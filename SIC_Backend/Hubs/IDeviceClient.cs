@@ -2,6 +2,6 @@
 {
     public interface IDeviceClient
     {
-        void RefreshDevice(int deviceId, object data);
+        public Task ReceiveData(object data);
     }
 }

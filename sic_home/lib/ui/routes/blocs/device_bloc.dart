@@ -12,11 +12,13 @@ enum DeviceStates { initial, loading, loaded, error }
 class DeviceState {
   DeviceStates state;
   String data;
+  double maxData;
   String error;
 
   DeviceState({
     required this.state,
     required this.data,
+    this.maxData = 0,
     required this.error,
   });
 }
@@ -33,9 +35,16 @@ class DataReceivedEvent {
   const DataReceivedEvent(this.data);
 }
 
+class DeviceEvent {
+  final String data;
+
+  const DeviceEvent(this.data);
+}
+
 class DeviceBloc extends Bloc<Object, DeviceState> {
   final Device device;
   late HubConnection hubConnection;
+  double maxData = 0;
   DeviceBloc(this.device, User user)
       : super(
           DeviceState(
@@ -59,24 +68,7 @@ class DeviceBloc extends Bloc<Object, DeviceState> {
         await hubConnection.start();
         log('Connection started');
 
-        await hubConnection.invoke('SubscribeToDevice',
-            args: [hubConnection.connectionId!, event.pin]);
-
-        // hubConnection.on('ReceiveData', (arguments) {
-        //   // log(arguments.toString());
-        //   // log((arguments![0] as int).toString());
-        //   // add(DataReceivedEvent<int>(arguments[0] as int));
-
-        //   if (arguments![0] is int) {
-        //     add(DataReceivedEvent<int>(arguments[0] as int));
-        //   } else if (arguments[0] is double) {
-        //     add(DataReceivedEvent<double>(arguments[0] as double));
-        //   } else if (arguments[0] is String) {
-        //     add(DataReceivedEvent<String>(arguments[0] as String));
-        //   } else if (arguments[0] is bool) {
-        //     add(DataReceivedEvent<bool>(arguments[0] as bool));
-        //   }
-        // });
+        await hubConnection.invoke('SubscribeToDevice', args: [event.pin]);
 
         hubConnection.on('ReceiveData', (arguments) {
           if (arguments![0] is int) {
@@ -97,13 +89,23 @@ class DeviceBloc extends Bloc<Object, DeviceState> {
 
     on<DataReceivedEvent>(
       (event, emit) {
+        maxData = maxData < double.parse(event.data)
+            ? double.parse(event.data).ceilToDouble()
+            : maxData; // Assign the max value
         emit(
           DeviceState(
             state: DeviceStates.loaded,
             data: event.data,
+            maxData: maxData,
             error: '',
           ),
         );
+      },
+    );
+
+    on<DeviceEvent>(
+      (event, emit) {
+        hubConnection.invoke('SendDeviceData', args: [device.pin, event.data]);
       },
     );
 

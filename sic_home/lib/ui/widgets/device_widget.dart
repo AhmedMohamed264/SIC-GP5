@@ -17,17 +17,63 @@ class DeviceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => DeviceBloc(deviceArgs.device, deviceArgs.user),
-      child: DeviceWidgetContent(deviceArgs.device),
+      child: deviceArgs.device.deviceType == DeviceType.analog
+          ? AnalogDeviceWidget(deviceArgs.device)
+          : const OnOffDeviceWidget(),
     );
   }
 }
 
-class DeviceWidgetContent extends StatelessWidget {
+class OnOffDeviceWidget extends StatelessWidget {
+  const OnOffDeviceWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              'Device Name',
+              style: TextStyles.titleStyleDark,
+            ),
+          ),
+          BlocBuilder<DeviceBloc, DeviceState>(
+            builder: (context, state) {
+              return TextButton(
+                onPressed: () => BlocProvider.of<DeviceBloc>(context).add(
+                  const DeviceEvent('0'),
+                ),
+                child: const Text(
+                  'On / Off',
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AnalogDeviceWidget extends StatelessWidget {
   final Device device;
   final dataPoints = <FlSpot>[];
   int totalPointsCount = 0;
 
-  DeviceWidgetContent(this.device, {super.key});
+  AnalogDeviceWidget(this.device, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -99,15 +145,15 @@ class DeviceWidgetContent extends StatelessWidget {
                             );
                           },
                         ),
-                        titlesData: const FlTitlesData(
+                        titlesData: FlTitlesData(
                           show: true,
-                          rightTitles: AxisTitles(
+                          rightTitles: const AxisTitles(
                             sideTitles: SideTitles(showTitles: false),
                           ),
-                          topTitles: AxisTitles(
+                          topTitles: const AxisTitles(
                             sideTitles: SideTitles(showTitles: false),
                           ),
-                          bottomTitles: AxisTitles(
+                          bottomTitles: const AxisTitles(
                             sideTitles: SideTitles(
                               showTitles: true,
                               reservedSize: 30,
@@ -118,7 +164,9 @@ class DeviceWidgetContent extends StatelessWidget {
                           leftTitles: AxisTitles(
                             sideTitles: SideTitles(
                               showTitles: true,
-                              interval: 1,
+                              interval: state.maxData / 10 == 0
+                                  ? 1
+                                  : state.maxData / 10,
                               // getTitlesWidget: leftTitleWidgets,
                               reservedSize: 42,
                             ),
@@ -129,7 +177,7 @@ class DeviceWidgetContent extends StatelessWidget {
                           border: Border.all(color: const Color(0xff37434d)),
                         ),
                         minY: 0,
-                        maxY: 10,
+                        maxY: state.maxData,
                         lineBarsData: [
                           LineChartBarData(
                             spots: dataPoints,

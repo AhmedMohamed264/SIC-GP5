@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -7,6 +8,8 @@ using SIC_Backend.Data.Models;
 using SIC_Backend.Hubs;
 using SIC_Backend.Repositories;
 using SIC_Backend.Services;
+using System.Net;
+using System.Net.WebSockets;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +37,8 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     serverOptions.Limits.MaxRequestBodySize = long.MaxValue;
 });
+
+builder.Services.Configure<FormOptions>(options => options.MultipartBodyLengthLimit = 50 * 1024 * 1024);
 
 builder.Services.AddDbContext<ApplicationDbContext>(cfg =>
     cfg.UseMySql(builder.Configuration["ConnectionStrings:DefaultConnection"], new MySqlServerVersion(new Version(8, 0, 39))));
@@ -83,6 +88,24 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//app.UseWebSockets();
+
+//var webSocketHandler = new WebSocketHandler();
+
+//app.Map("/LiveFeed", async context =>
+//{
+//    if (context.WebSockets.IsWebSocketRequest)
+//    {
+//        Console.WriteLine("Websocket connection.");
+//        await webSocketHandler.HandleWebSocketAsync(context);
+//    }
+//    else
+//    {
+//        Console.WriteLine("Not a websocket connection");
+//        context.Response.StatusCode = 400;
+//    }
+//});
 
 app.UseHttpsRedirection();
 

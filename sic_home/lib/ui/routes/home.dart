@@ -8,6 +8,7 @@ import 'package:sic_home/repositories/places_repository.dart';
 import 'package:sic_home/repositories/users_repository.dart';
 import 'package:sic_home/ui/routes/blocs/home_bloc.dart';
 import 'package:sic_home/ui/routes/dashboard.dart';
+import 'package:sic_home/ui/routes/live_feed.dart';
 import 'package:sic_home/ui/routes/route_generator.dart';
 import 'package:sic_home/ui/styles/text_styles.dart';
 
@@ -87,7 +88,7 @@ class _HomeContentState extends State<HomeContent>
   @override
   Widget build(BuildContext context) {
     final textController = TextEditingController();
-    final tabController = TabController(length: 2, vsync: this);
+    final tabController = TabController(length: 3, vsync: this);
 
     return Scaffold(
       appBar: AppBar(
@@ -228,6 +229,7 @@ class _HomeContentState extends State<HomeContent>
                   child: const Icon(Icons.add),
                 ),
               ),
+              VideoStreamPage(),
             ],
           );
         },
@@ -241,6 +243,9 @@ class _HomeContentState extends State<HomeContent>
           Tab(
             icon: Icon(Icons.home),
           ),
+          Tab(
+            icon: Icon(Icons.camera_outdoor_rounded),
+          )
         ],
       ),
     );

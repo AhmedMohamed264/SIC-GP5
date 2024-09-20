@@ -10,13 +10,18 @@ namespace Universe_Backend.Controllers;
 [Route("[controller]")]
 public class FilesController(ILogger<FilesController> logger, IFilesService filesService, IFilesRepository filesRepository) : ControllerBase
 {
-    [HttpPost("{cameraId}Images/Upload")]
-    public async Task<ActionResult<List<string>>> UploadImage(int cameraId, [FromForm] List<IFormFile> images)
+    [HttpPost("/Images/Upload")]
+    public async Task<ActionResult<string>> UploadImage([FromForm] IFormFile img)
     {
-        logger.LogDebug($"FilesController -> UploadImage: Got {images.Count} images.");
-        var imageUrls = await filesService.UploadImage(images);
-        await filesRepository.AddImages(cameraId, imageUrls);
-        return Ok(imageUrls);
+        logger.LogDebug($"FilesController -> UploadImage: Got image");
+        if (img.Length == 0)
+        {
+            logger.LogDebug("Empty file");
+            return BadRequest("Empty file");
+        }
+        var imageUrl = await filesService.UploadImage(img);
+        await filesRepository.AddImages(0, [imageUrl]);
+        return Ok(imageUrl);
     }
 
     //[HttpPost("Videos/Upload")]
