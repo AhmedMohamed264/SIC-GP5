@@ -40,13 +40,19 @@ namespace SIC_Backend.Repositories
                 .ToList();
         }
 
-        public async Task CreateDeviceAsync(CreateDeviceModel model)
+        public async Task<int> CreateDeviceAsync(CreateDeviceModel model)
         {
             var device = Device.FromCreateModel(model);
 
             dbContext.Devices.Add(device);
             
             await dbContext.SaveChangesAsync();
+
+            device.Pin = device.Id;
+
+            await dbContext.SaveChangesAsync();
+
+            return device.Pin;
         }
 
         public async Task UpdateDeviceAsync(int id, UpdateDeviceModel model)

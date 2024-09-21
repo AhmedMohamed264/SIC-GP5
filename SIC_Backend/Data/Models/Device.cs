@@ -39,7 +39,6 @@ namespace SIC_Backend.Data.Models
                 UserId = model.UserId,
                 PlaceId = model.PlaceId,
                 SectionId = model.SectionId,
-                Pin = model.Pin
             };
         }
     }

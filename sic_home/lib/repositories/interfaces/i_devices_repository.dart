@@ -11,7 +11,7 @@ abstract class IDevicesRepository {
 
   Future<List<Device>> getDevicesBySection(int sectionId);
 
-  Future<void> createDevice(CreateDeviceModel device);
+  Future<int> createDevice(CreateDeviceModel device);
 
   Future<void> updateDevice(int id, UpdateDeviceModel device);
 

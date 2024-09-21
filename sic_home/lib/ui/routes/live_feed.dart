@@ -12,7 +12,7 @@ class VideoStreamPage extends StatefulWidget {
 
 class _VideoStreamPageState extends State<VideoStreamPage> {
   final _channel = WebSocketChannel.connect(
-    Uri.parse('ws://ahmedafifi-lt:5283/LiveFeed'),
+    Uri.parse('ws://13.38.90.184:5283/LiveFeed'),
   );
   Uint8List? _lastFrame; // Cache the last frame
 

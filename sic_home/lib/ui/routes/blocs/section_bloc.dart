@@ -23,8 +23,9 @@ class LoadEvent {}
 
 class AddDeviceEvent {
   final CreateDeviceModel device;
+  final void Function(int pin) openDialog;
 
-  const AddDeviceEvent(this.device);
+  AddDeviceEvent(this.device, this.openDialog);
 }
 
 class SectionBloc extends Bloc<Object, SectionState> {
@@ -72,13 +73,16 @@ class SectionBloc extends Bloc<Object, SectionState> {
           state: SectionStates.loading,
           user: state.user,
         )); // Show loading dialog.
-
         await decvicesRepository.createDevice(event.device).then(
-          (_) {
+          (pin) async {
             emit(SectionState(
               state: SectionStates.loaded,
               user: state.user,
             ));
+
+            await Future.delayed(const Duration(milliseconds: 500));
+
+            event.openDialog(pin);
           },
           onError: (error) {
             emit(

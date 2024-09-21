@@ -10,7 +10,7 @@ import 'package:sic_home/models/section_args.dart';
 import 'package:sic_home/repositories/authentication_repository.dart';
 import 'package:sic_home/repositories/devices_repository.dart';
 import 'package:sic_home/repositories/users_repository.dart';
-import 'package:sic_home/ui/routes/blocs/Section_bloc.dart';
+import 'package:sic_home/ui/routes/blocs/section_bloc.dart';
 import 'package:sic_home/ui/routes/route_generator.dart';
 import 'package:sic_home/ui/styles/text_styles.dart';
 
@@ -89,7 +89,6 @@ class SectionContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textController = TextEditingController();
-    final pinController = TextEditingController();
     final dropdownController = TextEditingController();
 
     return Scaffold(
@@ -218,21 +217,6 @@ class SectionContent extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    TextField(
-                      controller: pinController,
-                      decoration: const InputDecoration(
-                        labelText: 'Pin',
-                        filled: true,
-                        fillColor: Color.fromRGBO(80, 80, 80, 0.3),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
                     DropdownMenu(
                       onSelected: (value) {
                         log(dropdownController.text);
@@ -272,7 +256,6 @@ class SectionContent extends StatelessWidget {
                         AddDeviceEvent(
                           CreateDeviceModel(
                             name: textController.text,
-                            pin: int.parse(pinController.text),
                             deviceType: dropdownController.text == 'On/Off'
                                 ? DeviceType.onoff
                                 : DeviceType.analog,
@@ -283,6 +266,20 @@ class SectionContent extends StatelessWidget {
                                 .currentUser()!
                                 .id,
                           ),
+                          (pin) {
+                            showDialog(
+                              barrierColor:
+                                  const Color.fromRGBO(255, 255, 255, 0.05),
+                              context: context,
+                              builder: (_) => BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                                child: AlertDialog(
+                                  title: const Text("Assigned Pin"),
+                                  content: Text(pin.toString()),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       );
                     },

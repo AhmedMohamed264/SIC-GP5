@@ -13,7 +13,6 @@ CreateDeviceModel _$CreateDeviceModelFromJson(Map<String, dynamic> json) =>
       userId: json['userId'] as String,
       placeId: (json['placeId'] as num).toInt(),
       sectionId: (json['sectionId'] as num).toInt(),
-      pin: (json['pin'] as num).toInt(),
     );
 
 Map<String, dynamic> _$CreateDeviceModelToJson(CreateDeviceModel instance) =>
@@ -23,7 +22,6 @@ Map<String, dynamic> _$CreateDeviceModelToJson(CreateDeviceModel instance) =>
       'userId': instance.userId,
       'placeId': instance.placeId,
       'sectionId': instance.sectionId,
-      'pin': instance.pin,
     };
 
 const _$DeviceTypeEnumMap = {

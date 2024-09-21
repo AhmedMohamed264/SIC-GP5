@@ -9,7 +9,7 @@ class DevicesRepository implements IDevicesRepository {
   final DevicesApi _devicesApi = DevicesApi(Dio());
 
   @override
-  Future<void> createDevice(CreateDeviceModel device) async {
+  Future<int> createDevice(CreateDeviceModel device) async {
     return await _devicesApi.createDevice(device);
   }
 

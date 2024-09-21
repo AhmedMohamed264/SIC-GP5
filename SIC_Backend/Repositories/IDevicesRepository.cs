@@ -9,7 +9,7 @@ namespace SIC_Backend.Repositories
         public IEnumerable<DeviceDTO> GetDevicesByUserId(string userId);
         public IEnumerable<DeviceDTO> GetDevicesByPlaceId(int placeId);
         public IEnumerable<DeviceDTO> GetDevicesBySectionId(int sectionId);
-        public Task CreateDeviceAsync(CreateDeviceModel model);
+        public Task<int> CreateDeviceAsync(CreateDeviceModel model);
         public Task UpdateDeviceAsync(int id, UpdateDeviceModel model);
         public Task DeleteDeviceAsync(int id);
     }

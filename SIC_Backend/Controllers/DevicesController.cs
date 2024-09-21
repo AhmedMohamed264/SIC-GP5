@@ -46,15 +46,15 @@ namespace SIC_Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateDevice([FromBody] CreateDeviceModel model)
+        public async Task<ActionResult<int>> CreateDevice([FromBody] CreateDeviceModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             logger.LogDebug("DevicesController -> createDevice: creating device");
-            await devicesRepository.CreateDeviceAsync(model);
+            int devicePin = await devicesRepository.CreateDeviceAsync(model);
 
-            return NoContent();
+            return Ok(devicePin);
         }
 
         [HttpPut("{id}")]

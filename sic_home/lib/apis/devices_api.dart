@@ -33,7 +33,7 @@ abstract class DevicesApi {
   );
 
   @POST('')
-  Future<void> createDevice(
+  Future<int> createDevice(
     @Body() CreateDeviceModel device,
   );
 
