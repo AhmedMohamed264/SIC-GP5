@@ -6,7 +6,7 @@ print("Enter pin number: ")
 pin = input()
 
 while True:
-    randomNumber = random.uniform(0, 10)
+    randomNumber = random.uniform(0, 2048)
     requests.post(f'http://ahmedafifi-lt:5283/Test/publish/float/{pin}?data={randomNumber}')
     print(f"Published {randomNumber}")
     time.sleep(1)

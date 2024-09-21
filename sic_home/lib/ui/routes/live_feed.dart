@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class VideoStreamPage extends StatefulWidget {
+  const VideoStreamPage({super.key});
+
   @override
   _VideoStreamPageState createState() => _VideoStreamPageState();
 }
@@ -18,7 +20,7 @@ class _VideoStreamPageState extends State<VideoStreamPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Live Video Stream'),
+        title: const Text('Live Video Stream'),
       ),
       body: Center(
         child: StreamBuilder(
@@ -33,7 +35,8 @@ class _VideoStreamPageState extends State<VideoStreamPage> {
               return FadeInImage(
                 placeholder: MemoryImage(_lastFrame!),
                 image: MemoryImage(_lastFrame!),
-                fadeInDuration: Duration(milliseconds: 50), // Fast fade-in
+                fadeInDuration:
+                    const Duration(milliseconds: 50), // Fast fade-in
                 fit: BoxFit.cover,
               );
             } else if (snapshot.hasError) {
@@ -43,7 +46,7 @@ class _VideoStreamPageState extends State<VideoStreamPage> {
             // Display the last cached frame, or a loader if no frames yet
             return _lastFrame != null
                 ? Image.memory(_lastFrame!, fit: BoxFit.cover)
-                : CircularProgressIndicator();
+                : const CircularProgressIndicator();
           },
         ),
       ),

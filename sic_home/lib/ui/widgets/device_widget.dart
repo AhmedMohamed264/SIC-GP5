@@ -136,13 +136,11 @@ class AnalogDeviceWidget extends StatelessWidget {
                           verticalInterval: 1,
                           getDrawingHorizontalLine: (value) {
                             return const FlLine(
-                              // color: AppColors.mainGridLineColor,
                               strokeWidth: 1,
                             );
                           },
                           getDrawingVerticalLine: (value) {
                             return const FlLine(
-                              // color: AppColors.mainGridLineColor,
                               strokeWidth: 1,
                             );
                           },
@@ -160,7 +158,6 @@ class AnalogDeviceWidget extends StatelessWidget {
                               showTitles: true,
                               reservedSize: 30,
                               interval: 1,
-                              // getTitlesWidget: bottomTitleWidgets,
                             ),
                           ),
                           leftTitles: AxisTitles(
@@ -168,8 +165,16 @@ class AnalogDeviceWidget extends StatelessWidget {
                               showTitles: true,
                               interval: state.maxData / 10 == 0
                                   ? 1
-                                  : state.maxData / 10,
-                              // getTitlesWidget: leftTitleWidgets,
+                                  : (state.maxData.ceil() +
+                                          10 -
+                                          double.parse(state.maxData
+                                              .ceil()
+                                              .toString()[state.maxData
+                                                  .ceil()
+                                                  .toString()
+                                                  .length -
+                                              1])) /
+                                      5,
                               reservedSize: 42,
                             ),
                           ),
@@ -179,14 +184,14 @@ class AnalogDeviceWidget extends StatelessWidget {
                           border: Border.all(color: const Color(0xff37434d)),
                         ),
                         minY: 0,
-                        maxY: state.maxData,
+                        maxY: state.maxData.ceil() +
+                            10 -
+                            double.parse(state.maxData.ceil().toString()[
+                                state.maxData.ceil().toString().length - 1]),
                         lineBarsData: [
                           LineChartBarData(
                             spots: dataPoints,
                             isCurved: true,
-                            // gradient: LinearGradient(
-                            //   colors: gradientColors,
-                            // ),
                             barWidth: 5,
                             isStrokeCapRound: true,
                             dotData: const FlDotData(
@@ -194,34 +199,10 @@ class AnalogDeviceWidget extends StatelessWidget {
                             ),
                             belowBarData: BarAreaData(
                               show: true,
-                              // gradient: LinearGradient(
-                              //   colors: gradientColors
-                              //       .map((color) => color.withOpacity(0.3))
-                              //       .toList(),
-                              // ),
                             ),
                           ),
                         ],
                       ),
-                      // LineChartData(
-                      //   lineBarsData: [
-                      //     LineChartBarData(
-                      //       spots: dataPoints,
-                      //       isCurved: true,
-                      //       color: Colors.green,
-                      //       barWidth: 3,
-                      //       belowBarData: BarAreaData(show: false),
-                      //     )
-                      //   ],
-                      //   titlesData: const FlTitlesData(
-                      //     bottomTitles: AxisTitles(
-                      //       sideTitles: SideTitles(showTitles: true),
-                      //     ),
-                      //     leftTitles: AxisTitles(
-                      //       sideTitles: SideTitles(showTitles: true),
-                      //     ),
-                      //   ),
-                      // ),
                     ),
                   ),
                 ),
