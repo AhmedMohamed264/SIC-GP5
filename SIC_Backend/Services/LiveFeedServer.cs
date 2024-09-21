@@ -25,7 +25,7 @@ public class WebSocketHandler
 
     private async Task ReceiveAndBroadcast(WebSocket webSocket)
     {
-        var buffer = new byte[1024 * 4];
+        var buffer = new byte[1024 * 330];
 
         while (webSocket.State == WebSocketState.Open)
         {

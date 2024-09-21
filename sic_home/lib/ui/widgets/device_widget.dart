@@ -19,13 +19,15 @@ class DeviceWidget extends StatelessWidget {
       create: (context) => DeviceBloc(deviceArgs.device, deviceArgs.user),
       child: deviceArgs.device.deviceType == DeviceType.analog
           ? AnalogDeviceWidget(deviceArgs.device)
-          : const OnOffDeviceWidget(),
+          : OnOffDeviceWidget(deviceArgs.device),
     );
   }
 }
 
 class OnOffDeviceWidget extends StatelessWidget {
-  const OnOffDeviceWidget({super.key});
+  final Device device;
+
+  const OnOffDeviceWidget(this.device, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class OnOffDeviceWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10),
             child: Text(
-              'Device Name',
+              device.name,
               style: TextStyles.titleStyleDark,
             ),
           ),
@@ -54,7 +56,7 @@ class OnOffDeviceWidget extends StatelessWidget {
             builder: (context, state) {
               return TextButton(
                 onPressed: () => BlocProvider.of<DeviceBloc>(context).add(
-                  const DeviceEvent('0'),
+                  const DeviceEvent('1'),
                 ),
                 child: const Text(
                   'On / Off',

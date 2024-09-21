@@ -89,23 +89,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseWebSockets();
+app.UseWebSockets();
 
-//var webSocketHandler = new WebSocketHandler();
+var webSocketHandler = new WebSocketHandler();
 
-//app.Map("/LiveFeed", async context =>
-//{
-//    if (context.WebSockets.IsWebSocketRequest)
-//    {
-//        Console.WriteLine("Websocket connection.");
-//        await webSocketHandler.HandleWebSocketAsync(context);
-//    }
-//    else
-//    {
-//        Console.WriteLine("Not a websocket connection");
-//        context.Response.StatusCode = 400;
-//    }
-//});
+app.Map("/LiveFeed", async context =>
+{
+    if (context.WebSockets.IsWebSocketRequest)
+    {
+        Console.WriteLine("Websocket connection.");
+        await webSocketHandler.HandleWebSocketAsync(context);
+    }
+    else
+    {
+        Console.WriteLine("Not a websocket connection");
+        context.Response.StatusCode = 400;
+    }
+});
 
 app.UseHttpsRedirection();
 
